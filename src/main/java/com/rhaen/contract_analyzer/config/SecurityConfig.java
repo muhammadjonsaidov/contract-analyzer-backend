@@ -10,7 +10,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.SecurityFilterChain;
@@ -20,7 +19,9 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Configuration
 @EnableWebSecurity
@@ -64,10 +65,14 @@ public class SecurityConfig {
                                     return userRepository.save(newUser);
                                 });
 
-                                String token = jwtService.generateToken(user);
-                                response.sendRedirect("http://localhost:8080/api/auth/callback?token=" + token);
+                                Map<String, Object> extraClaims = new HashMap<>();
+                                extraClaims.put("userId", user.getId());
+                                extraClaims.put("username", user.getFullName());
+
+                                String token = jwtService.generateToken(extraClaims, user);
+                                response.sendRedirect("http://localhost:8501/?token=" + token);
                             } catch (Exception e) {
-                                response.sendRedirect("http://localhost:8080/login?error=oauth2_failed");
+                                response.sendRedirect("http://localhost:8501/?error=oauth2_failed");
                             }
                         }))
                 );
