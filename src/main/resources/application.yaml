@@ -1,0 +1,51 @@
+spring:
+  config:
+    import: "optional:file:.env[.properties]"
+  application:
+    name: contract-analyzer
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/contractdb
+    username: postgres
+    password: rootpassword
+
+  jpa:
+    open-in-view: true
+    hibernate:
+      ddl-auto: update
+
+  ai:
+    openai:
+      api-key:  ${OPENAI_API_KEY}
+      chat:
+        options:
+          model: gpt-4
+      embedding:
+        options:
+          model: text-embedding-3-small
+          dimensions: 1536
+
+    vectorstore:
+      pgvector:
+        index-type: hnsw
+        distance-type: cosine-distance
+        dimensions: 1536
+        initialize-schema: true
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
+            scope: openid,profile,email
+application:
+  security:
+    jwt:
+      secret-key: ${JWT_SECRET:404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970}
+      expiration: 86400000 # 1 day
+
+logging:
+  level:
+    org.springframework.security: DEBUG
