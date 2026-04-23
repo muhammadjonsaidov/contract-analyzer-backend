@@ -62,6 +62,10 @@ docker-compose up -d
 
 The application will start on `http://localhost:8080`.
 
+## API Documentation
+
+Access Swagger UI at: `https://hyperconfident-carter-sweptback.ngrok-free.dev/backend/swagger-ui/index.html`
+
 ## API Endpoints
 
 ### Authentication
@@ -94,7 +98,7 @@ Key configurations in `src/main/resources/application.yaml`:
 2. Create a new project or select existing
 3. Enable Google+ API
 4. Create OAuth 2.0 credentials
-5. Add `http://localhost:8080/login/oauth2/code/google` as authorized redirect URI
+5. Add `https://hyperconfident-carter-sweptback.ngrok-free.dev/backend/login/oauth2/code/google` as authorized redirect URI
 6. Copy Client ID and Client Secret to `.env`
 
 ## Development

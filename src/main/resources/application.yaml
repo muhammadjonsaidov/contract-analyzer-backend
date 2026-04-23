@@ -40,6 +40,7 @@ spring:
             client-id: ${GOOGLE_CLIENT_ID}
             client-secret: ${GOOGLE_CLIENT_SECRET}
             scope: openid,profile,email
+            redirect-uri: https://hyperconfident-carter-sweptback.ngrok-free.dev/backend/login/oauth2/code/google
 application:
   security:
     jwt:
@@ -49,3 +50,22 @@ application:
 logging:
   level:
     org.springframework.security: DEBUG
+
+server:
+  port: 8085
+  address: 0.0.0.0
+  forward-headers-strategy: framework
+  servlet:
+    context-path: /backend
+  tomcat:
+    threads:
+      max: 200
+      min-spare: 10
+    connection-timeout: 20000ms
+    max-connections: 500
+
+springdoc:
+  cache:
+    disabled: true
+  api-docs:
+    path: /v3/api-docs
